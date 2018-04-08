@@ -12,3 +12,5 @@
 	lg = !"git lg1"
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 
+[help]
+	autocorrect = 1
