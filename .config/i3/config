@@ -160,8 +160,8 @@ exec xrandr --output DP-3 --off --output HDMI-1 --off --output DVI-I-1 --primary
 
 exec feh --bg-scale /home/ttauveron/Pictures/wallpaper
 
-bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 1+ unmute"
-bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 1- unmute"
+bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 5+ unmute"
+bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 5- unmute"
 bindsym XF86AudioMute exec "amixer -q -D pulse sset Master toggle"
 
 bindsym $mod+l exec i3lock -c 000000
