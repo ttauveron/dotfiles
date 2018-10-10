@@ -191,3 +191,7 @@ stty -ixon
 
 # Prevent cd from listing non-directory files
 complete -d cd
+
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -t"                  # $EDITOR opens in terminal
+export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
