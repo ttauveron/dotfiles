@@ -125,6 +125,8 @@ shopt -s cdable_vars
 
 alias ls='ls --color=auto'
 
+# Disable flow-control to enable ctrl+s
+stty -ixon
 
 
 
