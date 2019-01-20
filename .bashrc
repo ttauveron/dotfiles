@@ -125,12 +125,6 @@ shopt -s cdable_vars
 
 alias ls='ls --color=auto'
 
-# Disable flow-control to enable ctrl+s
-stty -ixon
-
-
-
-
 
 function extract {
  if [ -z "$1" ]; then
@@ -189,7 +183,7 @@ export PATH=~/.local/bin:$PATH
 source ~/.local/bin/aws_bash_completer
 source <(helm completion bash)
 
-stty -ixon
+
 
 # Prevent cd from listing non-directory files
 complete -d cd
@@ -197,3 +191,7 @@ complete -d cd
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"                  # $EDITOR opens in terminal
 export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
+
+
+# Disable flow-control to enable ctrl+s
+stty -ixon
