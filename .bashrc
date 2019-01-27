@@ -192,6 +192,7 @@ export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"                  # $EDITOR opens in terminal
 export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
 
+alias nano="emacs -nw"
 
 # Disable flow-control to enable ctrl+s
 stty -ixon
