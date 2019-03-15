@@ -165,7 +165,7 @@ bar {
 exec xrandr --output DP-3 --off --output HDMI-1 --off --output DVI-I-1 --primary --mode 1920x1080 --pos 0x0 --rotate left --output DP-2 --mode 1920x1080 --pos 1080x512 --rotate normal --output DP-1 --off
 
 exec feh --bg-scale /usr/share/backgrounds/warty-final-ubuntu.png
-exec nm-applet
+exec --no-startup-id nm-applet --sm-disable
 
 bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 5+ unmute"
 bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 5- unmute"
