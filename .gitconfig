@@ -15,4 +15,4 @@
 [help]
 	autocorrect = 1
 [core]
-	editor = emacs
+	editor = emacs -nw
