@@ -174,6 +174,7 @@ eval `dircolors ~/.dircolors/dircolors-solarized/dircolors.ansi-dark`
 
 
 source <(kubectl completion bash)
+alias kcn='kubectl config set-context $(kubectl config current-context) --namespace'
 
 export PATH=$PATH:/home/ttauveron/bin
 
