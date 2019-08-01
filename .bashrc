@@ -123,7 +123,6 @@ shopt -s cdable_vars
 # export dropbox="$HOME/Dropbox"
 
 
-alias ls='ls --color=auto'
 
 
 function extract {
@@ -163,38 +162,45 @@ export PS1="\u@\h \[$(tput sgr0)\]\[\033[38;5;81m\]\w\[$(tput sgr0)\]\[\033[38;5
 export PS1="\[\033[38;5;170m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]\[\033[38;5;196m\]>>\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 export PS1="\[\033[38;5;170m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]\[\033[38;5;196m\]>>\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 
-alias l=ls
-alias ll="ls -lArth"
-
 eval `dircolors ~/.dircolors/dircolors-solarized/dircolors.ansi-dark`
 
 # Use bash-completion, if available
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
     . /usr/share/bash-completion/bash_completion
 
-
-source <(kubectl completion bash)
-alias kcn='kubectl config set-context $(kubectl config current-context) --namespace'
-
-export PATH=$PATH:/home/ttauveron/bin
-
-source '/home/ttauveron/lib/azure-cli/az.completion'
-
-
-export PATH=~/.local/bin:$PATH
-source ~/.local/bin/aws_bash_completer
-source <(helm completion bash)
-
-
-
 # Prevent cd from listing non-directory files
 complete -d cd
 
+
+# Auto completions
+source <(kubectl completion bash)
+source <(hugo gen autocomplete --completionfile=/dev/stdout | head -n -2)
+source '/home/ttauveron/lib/azure-cli/az.completion'
+source <(minikube completion bash)
+source <(kompose completion bash)
+#source ~/.local/bin/aws_bash_completer
+source <(helm completion bash)
+
+
+# Useful aliases
+alias kcn='kubectl config set-context $(kubectl config current-context) --namespace'
+alias "c=xclip -selection clipboard"
+alias "v=xclip -o"
+alias nano="emacs -nw"
+alias ls='ls --color=auto'
+alias l=ls
+alias ll="ls -lArth"
+
+# Exports
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"                  # $EDITOR opens in terminal
 export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
 
-alias nano="emacs -nw"
+export PATH=$PATH:/home/ttauveron/bin
+export PATH=$PATH:~/.local/bin
+
+
+
 
 # Disable flow-control to enable ctrl+s
 stty -ixon
