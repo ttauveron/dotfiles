@@ -161,6 +161,7 @@ fi
 export PS1="\u@\h \[$(tput sgr0)\]\[\033[38;5;81m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;11m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 export PS1="\[\033[38;5;170m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]\[\033[38;5;196m\]>>\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 export PS1="\[\033[38;5;170m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]\[\033[38;5;196m\]>>\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
+export PS1="\[\033[38;5;201m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]"
 
 eval `dircolors ~/.dircolors/dircolors-solarized/dircolors.ansi-dark`
 
@@ -173,19 +174,19 @@ complete -d cd
 
 
 # Auto completions
-source <(kubectl completion bash)
-source <(hugo gen autocomplete --completionfile=/dev/stdout | head -n -2)
-source '/home/ttauveron/lib/azure-cli/az.completion'
-source <(minikube completion bash)
-source <(kompose completion bash)
-#source ~/.local/bin/aws_bash_completer
-source <(helm completion bash)
-
+# source <(kubectl completion bash)
+# source <(hugo gen autocomplete --completionfile=/dev/stdout | head -n -2)
+# source '/home/ttauveron/lib/azure-cli/az.completion'
+# source <(minikube completion bash)
+# source <(kompose completion bash)
+# source ~/.local/bin/aws_bash_completer
+# source <(helm completion bash)
+# complete -C /usr/local/bin/terraform terraform
 
 # Useful aliases
 alias kcn='kubectl config set-context $(kubectl config current-context) --namespace'
 alias "c=xclip -selection clipboard"
-alias "v=xclip -o"
+alias "v=xclip -o -selection clipboard"
 alias nano="emacs -nw"
 alias ls='ls --color=auto'
 alias l=ls
