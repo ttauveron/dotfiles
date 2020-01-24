@@ -163,7 +163,7 @@ export PS1="\[\033[38;5;170m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)
 export PS1="\[\033[38;5;170m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]\[\033[38;5;196m\]>>\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 export PS1="\[\033[38;5;201m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]"
 
-eval `dircolors ~/.dircolors/dircolors-solarized/dircolors.ansi-dark`
+#eval `dircolors ~/.dircolors/dircolors-solarized/dircolors.ansi-dark`
 
 # Use bash-completion, if available
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
@@ -180,25 +180,90 @@ complete -d cd
 # source <(minikube completion bash)
 # source <(kompose completion bash)
 # source ~/.local/bin/aws_bash_completer
-# source <(helm completion bash)
-# complete -C /usr/local/bin/terraform terraform
+#source <(helm completion bash)
+#complete -C terraform terraform
+#. $HOME/.asdf/asdf.sh
+#. $HOME/.asdf/completions/asdf.bash
 
 # Useful aliases
-alias kcn='kubectl config set-context $(kubectl config current-context) --namespace'
+#alias kcn='kubectl config set-context $(kubectl config current-context) --namespace'
+#alias kchcontext='kubectl config use-context '
 alias "c=xclip -selection clipboard"
 alias "v=xclip -o -selection clipboard"
 alias nano="emacs -nw"
 alias ls='ls --color=auto'
 alias l=ls
 alias ll="ls -lArth"
+alias rmacs="rm *\~"
+alias cd..="cd .."
+alias todo="emacs -nw ~/Documents/todo.txt"
+
+
+### VPN helper
+# vpn autocompletion
+_vpn_complete()
+{
+  local cur prev
+  COMPREPLY=()
+  cur=${COMP_WORDS[COMP_CWORD]}
+  prev=${COMP_WORDS[COMP_CWORD-1]}
+  if [ $COMP_CWORD -eq 1 ]; then
+    COMPREPLY=( $(compgen -W "connect disconnect killall" -- $cur) )
+  elif [ $COMP_CWORD -eq 2 ]; then
+    case "$prev" in
+      "connect")
+        COMPREPLY=( $(compgen -W "$(find ~/.vpn/ -name *.ovpn  -printf "%f\n")" -- $cur) )
+        ;;
+      "disconnect")
+        COMPREPLY=( $(compgen -W "$(ls /tmp/openvpn_pids 2> /dev/null)" -- $cur) )
+        ;;
+      *)
+        ;;
+    esac
+  fi
+  return 0
+}
+complete -F _vpn_complete vpn
+# vpn helper script
+vpn() {
+    ovpn_pid_dir=/tmp/openvpn_pids
+    ovpn_filename=$2
+    ovpn_pid_file=$ovpn_pid_dir/$2
+    mkdir -p $ovpn_pid_dir
+    if [ "$1" == "connect" ] && [ -f ~/.vpn/$ovpn_filename ]; then
+	sudo openvpn --config ~/.vpn/$ovpn_filename --daemon --writepid $ovpn_pid_file
+    elif [ "$1" == "disconnect" ] && [ -f $ovpn_pid_file ]; then
+        sudo kill $(cat $ovpn_pid_file) && sudo rm $ovpn_pid_file
+    elif [ "$1" == "killall" ]; then
+        sudo killall openvpn 2> /dev/null && sudo rm $ovpn_pid_dir/*
+    else
+	echo "Usage : $ vpn [connect|disconnect] ovpn_file"
+	return 1
+    fi
+}
+
 
 # Exports
 export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -t"                  # $EDITOR opens in terminal
-export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
+export EDITOR="emacs -nw"
+export KUBE_EDITOR="emacs -nw"
+#export EDITOR="emacsclient -t"                  # $EDITOR opens in terminal
+#export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
+export VISUAL="emacs -nw"         # $VISUAL opens in GUI mode
 
-export PATH=$PATH:/home/ttauveron/bin
+#export PATH=$PATH:/home/ttauveron/bin
 export PATH=$PATH:~/.local/bin
+
+# HSTR configuration - add this to ~/.bashrc
+alias hh=hstr                    # hh to be alias for hstr
+export HSTR_CONFIG=hicolor,raw-history-view,blacklist,substring-matching
+
+# ensure synchronization between Bash memory and history file
+export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"
+# if this is interactive shell, then bind hstr to Ctrl-r (for Vi mode check doc)
+if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hstr -- \C-j"'; fi
+# if this is interactive shell, then bind 'kill last command' to Ctrl-x k
+if [[ $- =~ .*i.* ]]; then bind '"\C-xk": "\C-a hstr -k \C-j"'; fi
 
 
 
