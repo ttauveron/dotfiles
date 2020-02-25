@@ -197,7 +197,8 @@ alias ll="ls -lArth"
 alias rmacs="rm *\~"
 alias cd..="cd .."
 alias todo="emacs -nw ~/Documents/todo.txt"
-
+alias k="kubectl"
+complete -F __start_kubectl k
 
 ### VPN helper
 # vpn autocompletion
