@@ -1,0 +1,57 @@
+#!/bin/bash
+
+if [ $# != 1 ]; then
+    echo "Usage: $0 filename"
+    exit 1
+fi
+
+IMAGE=fernflower:latest
+
+# If the fernflower image isn't already built, build it
+if [[ "$(docker images -q fernflower:latest 2> /dev/null)" == "" ]]; then
+
+    # Note: in the <<EOF, real tabs must be used to keep indentation
+    dockerfile=$(cat <<-EOF
+	FROM adoptopenjdk/openjdk11:alpine-slim as build
+	LABEL stage=builder
+
+	RUN wget https://github.com/fesh0r/fernflower/archive/refs/heads/master.zip && \
+	    unzip master.zip && \
+	    cd fernflower-master && \
+	    ./gradlew jar && \
+	    mkdir /app && \
+	    mv build/libs/fernflower.jar /app
+
+	FROM gcr.io/distroless/java:11
+	COPY --from=build /app /app
+	WORKDIR /app
+	ENTRYPOINT ["java", "-jar", "fernflower.jar"]
+	EOF
+    )
+    echo -e "$dockerfile" | docker build -t $IMAGE -
+    # Remove build layers
+    docker image prune --force --filter label=stage=builder
+fi
+
+# Remove trailing slash if parameter is a directory
+FILE=${1%/}
+
+TMP_DIR=$(mktemp -d -t jar-src-XXXXXXXXXX)
+trap "rm -rf $TMP_DIR" EXIT
+
+cp -r $FILE $TMP_DIR
+mkdir $TMP_DIR/output
+
+# Decompile the file passed in param
+docker run --user $(id -u):$(id -g) --rm -v $TMP_DIR:/src $IMAGE /src/$FILE /src/output
+mkdir "${FILE}_decompiled"
+case "$FILE" in
+    *.jar|zip)
+        unzip $TMP_DIR/output/$FILE -d ${FILE}_decompiled
+        ;;
+    *)
+        cp -r $TMP_DIR/output/* ${FILE}_decompiled
+        ;;
+esac
+
+echo "Decompilation performed"

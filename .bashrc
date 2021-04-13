@@ -301,8 +301,7 @@ export KUBE_EDITOR="vim"
 #export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
 export VISUAL="vim"         # $VISUAL opens in GUI mode
 
-#export PATH=$PATH:/home/ttauveron/bin
-export PATH=$PATH:~/.local/bin
+export PATH=$PATH:$HOME/.local/bin:$HOME/bin
 
 # HSTR configuration - add this to ~/.bashrc
 alias hh=hstr                    # hh to be alias for hstr
@@ -314,9 +313,6 @@ export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"
 if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hstr -- \C-j"'; fi
 # if this is interactive shell, then bind 'kill last command' to Ctrl-x k
 if [[ $- =~ .*i.* ]]; then bind '"\C-xk": "\C-a hstr -k \C-j"'; fi
-
-
-
 
 # Disable flow-control to enable ctrl+s
 stty -ixon
