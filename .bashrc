@@ -23,9 +23,9 @@
 
 # Unique Bash version check
 if ((BASH_VERSINFO[0] < 4))
-then 
-  echo "sensible.bash: Looks like you're running an older version of Bash." 
-  echo "sensible.bash: You need at least bash-4.0 or some options will not work correctly." 
+then
+  echo "sensible.bash: Looks like you're running an older version of Bash."
+  echo "sensible.bash: You need at least bash-4.0 or some options will not work correctly."
   echo "sensible.bash: Keep your software up-to-date!"
 fi
 
@@ -78,7 +78,7 @@ PROMPT_COMMAND='history -a'
 
 # Huge history. Doesn't appear to slow things down, so why not?
 HISTSIZE=500000
-HISTFILESIZE=100000
+HISTFILESIZE=10000000
 
 # Avoid duplicate entries
 HISTCONTROL="erasedups:ignoreboth"
@@ -163,7 +163,41 @@ export PS1="\[\033[38;5;170m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)
 export PS1="\[\033[38;5;170m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]\[\033[38;5;196m\]>>\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 export PS1="\[\033[38;5;201m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]"
 
-#eval `dircolors ~/.dircolors/dircolors-solarized/dircolors.ansi-dark`
+KUBE_PS1_SYMBOL_ENABLE=false
+source ~/.config/kube-ps1.sh
+source ~/.config/git-prompt.sh
+
+function color() {
+  echo "$(tput setaf $1)"
+}
+function reset_color() {
+  echo "$(tput sgr0)"
+}
+
+function last_status() {
+    local last_status=$?
+    local reset=$(reset_color)
+
+    local failure="✖"
+    local success=""
+
+    if [[ "$last_status" != "0" ]]; then
+	last_status="$(color 1)$failure$reset"
+    else
+	last_status="$(color 2)$success$reset"
+    fi
+
+    # ...some other things like hostname, current git branch etc
+
+    echo "$last_status"
+}
+
+
+export PS1="\[\033[38;5;201m\]\h\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \$(last_status)\$(kube_ps1) \$(__git_ps1 '卜\[\033[38;5;10m\]%s') \n\[$(tput sgr0)\]"
+
+
+
+eval `dircolors ~/.dircolors`
 
 # Use bash-completion, if available
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
@@ -174,30 +208,41 @@ complete -d cd
 
 
 # Auto completions
+
+for bcfile in ~/.bash_completion.d/* ; do
+  [ -f "$bcfile" ] && . $bcfile
+done
+
 # source <(kubectl completion bash)
+# source <(operator-sdk completion bash)
 # source <(hugo gen autocomplete --completionfile=/dev/stdout | head -n -2)
 # source '/home/ttauveron/lib/azure-cli/az.completion'
 # source <(minikube completion bash)
 # source <(kompose completion bash)
 # source ~/.local/bin/aws_bash_completer
-#source <(helm completion bash)
+# source <(helm completion bash)
 #complete -C terraform terraform
 #. $HOME/.asdf/asdf.sh
 #. $HOME/.asdf/completions/asdf.bash
+# source <(argo completion bash)
+# source <(argocd completion bash)
+# source <(velero completion bash)
+
 
 # Useful aliases
 #alias kcn='kubectl config set-context $(kubectl config current-context) --namespace'
 #alias kchcontext='kubectl config use-context '
 alias "c=xclip -selection clipboard"
 alias "v=xclip -o -selection clipboard"
-alias nano="emacs -nw"
 alias ls='ls --color=auto'
 alias l=ls
 alias ll="ls -lArth"
 alias rmacs="rm *\~"
 alias cd..="cd .."
-alias todo="emacs -nw ~/Documents/todo.txt"
 
+
+alias k="kubectl"
+complete -F __start_kubectl k
 
 ### VPN helper
 # vpn autocompletion
@@ -243,13 +288,18 @@ vpn() {
 }
 
 
+# yq in docker
+yq() {
+    docker run --rm -i -v "${PWD}":/workdir mikefarah/yq "$@"
+}
+
 # Exports
 export ALTERNATE_EDITOR=""
-export EDITOR="emacs -nw"
-export KUBE_EDITOR="emacs -nw"
+export EDITOR="vim"
+export KUBE_EDITOR="vim"
 #export EDITOR="emacsclient -t"                  # $EDITOR opens in terminal
 #export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
-export VISUAL="emacs -nw"         # $VISUAL opens in GUI mode
+export VISUAL="vim"         # $VISUAL opens in GUI mode
 
 #export PATH=$PATH:/home/ttauveron/bin
 export PATH=$PATH:~/.local/bin
