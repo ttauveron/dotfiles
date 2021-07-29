@@ -18,5 +18,12 @@
 	editor = vim
 [status]
 	submoduleSummary = true
+
+[includeIf "gitdir:~/git/diabol/"]
+    path = .gitconfig-diabol
+[includeIf "gitdir:~/git/nau/"]
+    path = .gitconfig-diabol
+[diff "sopsdiffer"]
+	textconv = sops -d
 [color]
 	ui = auto
