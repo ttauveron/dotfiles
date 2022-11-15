@@ -84,7 +84,7 @@ HISTFILESIZE=10000000
 HISTCONTROL="erasedups:ignoreboth"
 
 # Don't record some commands
-export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+export HISTIGNORE="&:[ ]*:exit:ls:ll:l:cd:bg:fg:history:clear"
 
 # Use standard ISO 8601 timestamp
 # %F equivalent to %Y-%m-%d
@@ -220,14 +220,18 @@ done
 # source <(minikube completion bash)
 # source <(kompose completion bash)
 # source ~/.local/bin/aws_bash_completer
+# source <(glab completion -s bash)
 # source <(helm completion bash)
 #complete -C terraform terraform
 #. $HOME/.asdf/asdf.sh
 #. $HOME/.asdf/completions/asdf.bash
+## >>>> Vagrant command completion (start)
+#. /opt/vagrant/embedded/gems/2.3.0/gems/vagrant-2.3.0/contrib/bash/completion.sh
+## <<<<  Vagrant command completion (end)
 # source <(argo completion bash)
 # source <(argocd completion bash)
 # source <(velero completion bash)
-
+# complete -C /usr/bin/vault vault
 
 # Useful aliases
 #alias kcn='kubectl config set-context $(kubectl config current-context) --namespace'
@@ -235,11 +239,17 @@ done
 alias "c=xclip -selection clipboard"
 alias "v=xclip -o -selection clipboard"
 alias ls='ls --color=auto'
-alias l=ls
-alias ll="ls -lArth"
+alias l="exa"
+alias vim=nvim
+#alias svim="nvim \$(fzf --height 40%)"
+alias o=xdg-open
+alias ll="exa --color-scale --all --time-style=long-iso --long --group --git --sort=modified"
+#alias ll="ls -lArth"
 alias rmacs="rm *\~"
 alias cd..="cd .."
-
+alias notes="vim ~/notes.mynotes"
+alias rustscan='docker run -it --rm --name rustscan rustscan/rustscan:1.10.0'
+alias glog="git log --oneline | fzf --preview 'git show --name-only {1}'"
 
 alias k="kubectl"
 complete -F __start_kubectl k
@@ -288,20 +298,20 @@ vpn() {
 }
 
 
-# yq in docker
-yq() {
-    docker run --rm -i -v "${PWD}":/workdir mikefarah/yq "$@"
-}
-
 # Exports
+export MANPAGER='most -s'
 export ALTERNATE_EDITOR=""
-export EDITOR="vim"
-export KUBE_EDITOR="vim"
+export EDITOR="nvim"
+export KUBE_EDITOR="nvim"
 #export EDITOR="emacsclient -t"                  # $EDITOR opens in terminal
 #export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI mode
-export VISUAL="vim"         # $VISUAL opens in GUI mode
+export VISUAL="nvim"         # $VISUAL opens in GUI mode
+#export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
 export PATH=$PATH:$HOME/.local/bin:$HOME/bin
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # HSTR configuration - add this to ~/.bashrc
 alias hh=hstr                    # hh to be alias for hstr
@@ -313,6 +323,7 @@ export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"
 if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hstr -- \C-j"'; fi
 # if this is interactive shell, then bind 'kill last command' to Ctrl-x k
 if [[ $- =~ .*i.* ]]; then bind '"\C-xk": "\C-a hstr -k \C-j"'; fi
+
 
 # Disable flow-control to enable ctrl+s
 stty -ixon

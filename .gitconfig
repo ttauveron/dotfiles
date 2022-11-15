@@ -15,7 +15,7 @@
 [help]
 	autocorrect = 1
 [core]
-	editor = vim
+	editor = nvim
 [status]
 	submoduleSummary = true
 
