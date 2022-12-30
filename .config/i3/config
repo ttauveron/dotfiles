@@ -205,6 +205,7 @@ exec xss-lock -n /usr/libexec/xsecurelock/dimmer -l -- xsecurelock
 #bindsym $mod+l exec i3lock -c 000000
 bindsym --release $mod+l exec xsecurelock
 
+bindsym --release Print exec "/usr/bin/flameshot gui"
 bindsym --release Shift+Print exec "scrot -s /tmp/screencap.png -e 'xclip -selection c -t image/png < $f' && rm /tmp/screencap.png"
 bindsyn --release $mod+Shift+Print exec "scrot -s '/home/ttauveron/Pictures/%Y-%m-%d_%H:%M:%S_$wx$h.png'"
 
