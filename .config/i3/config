@@ -185,6 +185,8 @@ bar {
 	tray_output primary
 }
 
+client.focused #fc0303 #fc0303 #ffffff #15ff00
+
 exec feh --bg-scale /usr/share/backgrounds/Definitive_Light_Zen_Orange_by_Pierre_Cante.jpg
 exec --no-startup-id nm-applet --sm-disable
 exec setxkbmap -option 'caps:ctrl_modifier'
