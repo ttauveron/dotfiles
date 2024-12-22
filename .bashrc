@@ -239,11 +239,11 @@ done
 alias "c=xclip -selection clipboard"
 alias "v=xclip -o -selection clipboard"
 alias ls='ls --color=auto'
-alias l="exa"
+alias l="eza"
 alias vim=nvim
 #alias svim="nvim \$(fzf --height 40%)"
 alias o=xdg-open
-alias ll="exa --color-scale --all --time-style=long-iso --long --group --git --sort=modified"
+alias ll="eza --color-scale --all --time-style=long-iso --long --group --git --sort=modified"
 #alias ll="ls -lArth"
 alias rmacs="rm *\~"
 alias cd..="cd .."
