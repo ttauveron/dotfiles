@@ -233,6 +233,10 @@ done
 # source <(velero completion bash)
 # complete -C /usr/bin/vault vault
 
+
+# Set up fzf key bindings and fuzzy completion
+eval "$(fzf --bash)"
+
 # Useful aliases
 #alias kcn='kubectl config set-context $(kubectl config current-context) --namespace'
 #alias kchcontext='kubectl config use-context '
