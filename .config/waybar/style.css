@@ -16,6 +16,7 @@
 #backlight,
 #custom-temperature,
 #memory,
+#custom-keyboard,
 #cpu{
   font-weight: bold;
   font-size: 16px;
@@ -23,6 +24,10 @@
 
 }
 
+#custom-keyboard {
+    padding: 0 10px;
+    font-size: 16px;
+}
 
 /* 透明 Waybar 背景 */
 #waybar {
@@ -48,6 +53,7 @@
 
 
 #clock,
+#custom-keyboard,
 #custom-power{
   background-color: rgba(15,27,53,0.9);
   margin-top: 6px; /* 与屏幕顶部留出距离 */
