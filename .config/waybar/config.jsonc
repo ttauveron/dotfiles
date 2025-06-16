@@ -9,9 +9,9 @@
   ],
   "modules-center": [],
   "modules-right": [
-    "custom/keyboard",
-    "network",
     "bluetooth",
+    "network",
+    "custom/keyboard",
     "pulseaudio",
     "clock"
   ],
@@ -37,29 +37,23 @@
     }
   },
   "custom/lock": {
-  "format": "<span color='#00FFFF'>  </span>",
-  "on-click": "hyprlock",
-  "tooltip": true,
-  "tooltip-format": "锁屏"
+    "format": "<span color='#00FFFF'>  </span>",
+    "on-click": "hyprlock",
+    "tooltip": true,
+    "tooltip-format": "锁屏"
   },
-"custom/keyboard": {
+  "custom/bluetooth": {
+    "format": "󰂯 Bluetooth",
+    "tooltip": "Bluetooth Manager",
+    "on-click": "blueman-manager",
+    "interval": 300
+  },
+  "custom/keyboard": {
     "format": "<span color='#FFFFFF'>{}</span>",
     "exec": "~/.config/waybar/kb-layout.sh",
     "interval": 1,
     "on-click": "hyprctl switchxkblayout 'keyd-virtual-keyboard' next"
-},
-  // "custom/reboot": {
-  //   "format": "<span color='#FFD700'>  </span>",
-  //   "on-click": "systemctl reboot",
-  //   "tooltip": true,
-  //   "tooltip-format": "重启"
-  // },
-  // "custom/power": {
-  //   "format": "<span color='#FF4040'>  </span>",
-  //   "on-click": "systemctl poweroff",
-  //   "tooltip": true,
-  //   "tooltip-format": "关机"
-  // },
+  },
   "network": {
     "format-wifi": "<span color='#00FFFF'> 󰤨 </span>{essid} ",
     "format-ethernet": "<span color='#7FFF00'> </span>Wired ",
@@ -81,7 +75,8 @@
     "tooltip": true
   },
   "pulseaudio": {
-    "format": "<span color='#00FF7F'>{icon}</span>{volume}% ",
+    //"format": "<span color='#00FF7F'>{icon}</span>{volume}% ",
+    "format": "<span color='#00FF7F'>{icon}</span>{volume}% <span color='#888888'>[{desc}]</span>",
     "format-muted": "<span color='#FF4040'> 󰖁 </span>0% ",
     "format-icons": {
       "headphone": "<span color='#BF00FF'>  </span>",
@@ -101,28 +96,12 @@
     "tooltip": true,
     "tooltip-format": "当前系统声音: {volume}%"
   },
-  "custom/temperature": {
-    "exec": "sensors | awk '/^Package id 0:/ {print int($4)}'",
-    "format": "<span color='#FFA500'> </span>{}°C ",
-    "interval": 5,
-    "tooltip": true,
-    "tooltip-format": "当前 CPU 温度: {}°C"
-  },
-  "memory": {
-    "format": "<span color='#8A2BE2'>  </span>{used:0.1f}G/{total:0.1f}G ",
-    "tooltip": true,
-    "tooltip-format": "当前内存占比: {used:0.2f}G/{total:0.2f}G"
-  },
-  "cpu": {
-    "format": "<span color='#FF9F0A'>  </span>{usage}% ",
-    "tooltip": true
-  },
   "clock": {
     "interval": 1,
-    "timezone": "Asia/Chengdu",
-    "format": "<span color='#BF00FF'>  </span>{:%H:%M} ",
+    "timezone": "Europe/Zurich",
+    "format": "<span color='#BF00FF'></span> {:%Y-%m-%d %H:%M}",
     "tooltip": true,
-    "tooltip-format": "{:L%Y 年 %m 月 %d 日, %A}"
+    "tooltip-format": "{:%A, %d %B %Y — %H:%M:%S}"
   },
   "tray": {
     "icon-size": 17,
@@ -147,7 +126,8 @@
     "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click": "blueman-manager"
   }
 }
 
