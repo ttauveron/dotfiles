@@ -1,6 +1,6 @@
 {
   "layer": "top",
-  "position": "top",
+  "position": "bottom",
   "height": 32,
   "spacing": 0,
   "modules-left": [
@@ -17,24 +17,9 @@
   ],
   "hyprland/workspaces": {
     "disable-scroll": false,
-    "all-outputs": true,
+    "all-outputs": false,
     "format": "{icon}",
     "on-click": "activate",
-    "persistent-workspaces": {
-    "*":[1,2,3,4,5,6,7,8,9]
-    },
-    "format-icons": {
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "default": ""
-    }
   },
   "custom/lock": {
     "format": "<span color='#00FFFF'>  </span>",

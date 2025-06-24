@@ -32,6 +32,7 @@
     font-size: 16px;
 }
 
+
 #waybar {
   background-color: rgba(0, 0, 0, 0);
   border: none;
@@ -110,28 +111,36 @@
   background-color: rgba(70, 75, 90, 0.9);
 }
 
-#workspaces button:hover{
-  background-color: rgba(97, 175, 239, 0.2);
-  padding: 2px 8px;
-  margin: 0 2px;
-  border-radius: 10px;
+#workspaces {
+    background: rgba(40, 42, 54, 0.5);
+    opacity: 1;
+    transition: none;
+    padding: 5px 5px;
+    border-radius: 5px;
+}
+
+#workspaces button, #workspaces button.persistent {
+    background: transparent;
+    color: #f8f8f2;
+    transition: none;
 }
 
 #workspaces button.active {
-  background-color: #61afef;
-  color: #ffffff;
-  padding: 2px 8px;
-  margin: 0 2px;
-  border-radius: 10px;
+    background: #50fa7b;
+    color: #21222c;
+    border-radius: 5px;
 }
 
-#workspaces button {
-  background: transparent;
-  border: none;
-  color: #888888;
-  padding: 2px 8px;
-  margin: 0 2px;
-  font-weight: bold;
+#workspaces button.urgent {
+    background: #ff6e6e;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+#workspaces button:hover {
+    background: #ff79c6;
+    color: #21222c;
+    border-radius: 5px;
 }
 
 #window {
